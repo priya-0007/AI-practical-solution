@@ -1308,58 +1308,32 @@ print(f"No path found from {start_vertex} to {goal_vertex}.")
 ## Slip 20
 #### Q.1
 ````
+from flask import Flask, request, jsonify
+app = Flask(__name__)
+# Replace these with your own information
+your_name = "Your Name"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+your_program = "Your Program"
+your_year = "Your Year"
+your_interests = ["Interest 1", "Interest 2", "Interest 3"]
+@app.route('/college_bot', methods=['POST'])
+def college_bot():
+data = request.get_json()
+if 'action' in data:
+action = data['action']
+if action == 'get_info':
+response = {
+'name': your_name,
+'program': your_program,
+'year': your_year,
+'interests': your_interests
+}
+return jsonify(response)
+else:
+return jsonify({'error': 'Invalid action'})
+return jsonify({'error': 'Action not provided'})
+if __name__ == '__main__':
+app.run(debug=True)
 
 ````
 
@@ -1427,26 +1401,34 @@ print("String without Punctuation:", result)
 
 #### Q2
 ````
+from itertools import permutations
+def is_solution(mapping):
+go = mapping['G'] * 10 + mapping['O']
+to = mapping['T'] * 10 + mapping['O']
+out = mapping['O'] * 100 + mapping['U'] * 10 + mapping['T']
+return go + to == out
+def solve_cryptarithmetic():
+for p in permutations(range(10), 5):
+mapping = {'G': p[0], 'O': p[1], 'T': p[2], 'U': p[3], 'N': p[4]}
+if is_solution(mapping):
+return mapping
+return None
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+if __name__ == "__main__":
+solution = solve_cryptarithmetic()
+if solution:
+print("Solution found:")
+print(f" G = {solution['G']}")
+print(f" O = {solution['O']}")
+print(f" T = {solution['T']}")
+print(f" U = {solution['U']}")
+print(f" N = {solution['N']}")
+print("\n GO")
+print("+ TO")
+print("------")
+print(f" OUT")
+else:
+print("No solution found.")
 ````
 
 ## Slip 22
