@@ -994,8 +994,9 @@ else:
 print("No solution found.")
 ````
 
-
-
+## Slip 16
+#### Q.1
+````
 def tower_of_hanoi(n, source_peg, target_peg, auxiliary_peg):
 if n == 1:
 print(f"Move disk 1 from {source_peg} to {target_peg}")
@@ -1007,17 +1008,9 @@ if __name__ == "__main__":
 number_of_disks = int(input("Enter the number of disks: "))
 
 tower_of_hanoi(number_of_disks, 'A', 'C', 'B')
-
-
-
-
-
-
-
 ````
 
-## Slip 1
-#### Q.1
+#### Q.2
 ````
 def print_board(board):
 for row in board:
@@ -1061,13 +1054,39 @@ else:
 print("It's a draw!")
 if __name__ == "__main__":
 main()
+````
 
+## Slip 17
+#### Q.1
+````
+def hill_climbing(function, initial_guess, step_size, max_iterations):
+current_solution = initial_guess
+current_value = function(current_solution)
+for _ in range(max_iterations):
+neighbor = current_solution + step_size
+neighbor_value = function(neighbor)
+if neighbor_value > current_value:
+current_solution = neighbor
+current_value = neighbor_value
+else:
+break
+return current_solution, current_value
 
+def example_function(x):
 
+return -(x - 2) ** 2 + 5
+if __name__ == "__main__":
 
-
-
-
+initial_guess = 0 
+step_size = 0.1 
+max_iterations = 100 
+result_solution, result_value = hill_climbing(example_function, initial_guess,
+step_size, max_iterations)
+print(f"Maximum Solution: {result_solution}")
+print(f"Maximum Value: {result_value}")
+````
+#### Q2
+````
 import heapq
 
 graph = {
@@ -1112,55 +1131,39 @@ if result_cost != float('inf'):
 print(f"Cost from {start_vertex} to {goal_vertex} using A* algorithm: {result_cost}")
 else:
 print(f"No path found from {start_vertex} to {goal_vertex}.")
-
-
-
-
-
-
-
-
-
 ````
 
-## Slip 1
+## Slip 18
 #### Q.1
 ````
-def hill_climbing(function, initial_guess, step_size, max_iterations):
-current_solution = initial_guess
-current_value = function(current_solution)
-for _ in range(max_iterations):
-neighbor = current_solution + step_size
-neighbor_value = function(neighbor)
-if neighbor_value > current_value:
-current_solution = neighbor
-current_value = neighbor_value
-else:
-break
-return current_solution, current_value
-
-def example_function(x):
-
-return -(x - 2) ** 2 + 5
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+nltk.download('stopwords')
+nltk.download('punkt')
+def remove_stop_words(input_text):
+stop_words = set(stopwords.words('english'))
+words = word_tokenize(input_text)
+filtered_words = [word.lower() for word in words if word.lower() not in stop_words]
+return ' '.join(filtered_words)
 if __name__ == "__main__":
+file_path = 'your_text_file.txt' # Replace with your text file path
+try:
+with open(file_path, 'r', encoding='utf-8') as file:
+passage = file.read()
+cleaned_passage = remove_stop_words(passage)
+print("Original Passage:")
+print(passage)
+print("\nPassage after removing stop words:")
+print(cleaned_passage)
+except FileNotFoundError:
+print(f"File not found at path: {file_path}")
+except Exception as e:
+print(f"An error occurred: {e}")
+````
 
-initial_guess = 0 
-step_size = 0.1 
-max_iterations = 100 
-result_solution, result_value = hill_climbing(example_function, initial_guess,
-step_size, max_iterations)
-print(f"Maximum Solution: {result_solution}")
-print(f"Maximum Value: {result_value}")
-
-
-
-
-
-
-
-
-
-
+#### Q2
+````
 import heapq
 class State:
 def __init__(self, room_width, room_height, remaining_objects, current_state=None):
@@ -1210,58 +1213,52 @@ print(result_state.placed_objects)
 print("Total wasted space:", result_state.total_wasted_space)
 else:
 print("No solution found.")
-
-
-
-
-
-
-
-
-
-
-
-
 ````
 
-## Slip 1
+
+## Slip 19
 #### Q.1
 ````
-import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-nltk.download('stopwords')
-nltk.download('punkt')
-def remove_stop_words(input_text):
-stop_words = set(stopwords.words('english'))
-words = word_tokenize(input_text)
-filtered_words = [word.lower() for word in words if word.lower() not in stop_words]
-return ' '.join(filtered_words)
+import random
+
+def choose_word():
+words = ["python", "hangman", "programming", "developer", "computer"]
+return random.choice(words)
+def display_word(word, guessed_letters):
+return ''.join(letter if letter in guessed_letters else '_' for letter in word)
+def hangman():
+word_to_guess = choose_word().lower()
+guessed_letters = set()
+attempts_left = 6
+print("Welcome to Hangman!")
+print(display_word(word_to_guess, guessed_letters))
+while attempts_left > 0:
+user_guess = input("Enter a letter: ").lower()
+if len(user_guess) != 1 or not user_guess.isalpha():
+print("Please enter a valid single letter.")
+continue
+if user_guess in guessed_letters:
+print("You've already guessed that letter.")
+continue
+guessed_letters.add(user_guess)
+if user_guess not in word_to_guess:
+attempts_left -= 1
+print(f"Wrong guess! Attempts left: {attempts_left}")
+else:
+print("Correct guess!")
+print(display_word(word_to_guess, guessed_letters))
+if '_' not in display_word(word_to_guess, guessed_letters):
+print("Congratulations! You've guessed the word.")
+break
+
+if attempts_left == 0:
+print(f"Sorry, you've run out of attempts. The word was: {word_to_guess}")
 if __name__ == "__main__":
-file_path = 'your_text_file.txt' # Replace with your text file path
-try:
-with open(file_path, 'r', encoding='utf-8') as file:
-passage = file.read()
-cleaned_passage = remove_stop_words(passage)
-print("Original Passage:")
-print(passage)
-print("\nPassage after removing stop words:")
-print(cleaned_passage)
-except FileNotFoundError:
-print(f"File not found at path: {file_path}")
-except Exception as e:
-print(f"An error occurred: {e}")
+hangman()
+````
 
-
-
-
-
-
-
-
-
-
-
+#### Q2
+````
 import heapq
 
 graph = {
@@ -1305,54 +1302,12 @@ print(f"Cost from {start_vertex} to {goal_vertex} using A* algorithm: {result_co
 else:
 print(f"No path found from {start_vertex} to {goal_vertex}.")
 
-
-
-
 ````
 
-## Slip 1
+
+## Slip 20
 #### Q.1
 ````
-import random
-
-def choose_word():
-words = ["python", "hangman", "programming", "developer", "computer"]
-return random.choice(words)
-def display_word(word, guessed_letters):
-return ''.join(letter if letter in guessed_letters else '_' for letter in word)
-def hangman():
-word_to_guess = choose_word().lower()
-guessed_letters = set()
-attempts_left = 6
-print("Welcome to Hangman!")
-print(display_word(word_to_guess, guessed_letters))
-while attempts_left > 0:
-user_guess = input("Enter a letter: ").lower()
-if len(user_guess) != 1 or not user_guess.isalpha():
-print("Please enter a valid single letter.")
-continue
-if user_guess in guessed_letters:
-print("You've already guessed that letter.")
-continue
-guessed_letters.add(user_guess)
-if user_guess not in word_to_guess:
-attempts_left -= 1
-print(f"Wrong guess! Attempts left: {attempts_left}")
-else:
-print("Correct guess!")
-print(display_word(word_to_guess, guessed_letters))
-if '_' not in display_word(word_to_guess, guessed_letters):
-print("Congratulations! You've guessed the word.")
-break
-
-if attempts_left == 0:
-print(f"Sorry, you've run out of attempts. The word was: {word_to_guess}")
-if __name__ == "__main__":
-hangman()
-
-
-
-
 
 
 
@@ -1408,8 +1363,8 @@ hangman()
 
 ````
 
-## Slip 1
-#### Q.1
+
+#### Q.2
 ````
 import math
 def mini_max(board, depth, is_maximizing_player):
@@ -1455,57 +1410,9 @@ best_value = move_value
 best_move = move
 
 print(f"The best move is {best_move} with a value of {best_value}")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ````
 
-## Slip 1
+## Slip 21
 #### Q.1
 ````
 import string
@@ -1516,6 +1423,10 @@ input_string = "Hello, world! This is an example string."
 result = remove_punctuation(input_string)
 print("Original String:", input_string)
 print("String without Punctuation:", result)
+````
+
+#### Q2
+````
 
 
 
@@ -1524,6 +1435,23 @@ print("String without Punctuation:", result)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+````
+
+## Slip 22
+#### Q.1
+````
 import math
 def alpha_beta_pruning(board, depth, alpha, beta, is_maximizing_player):
 if depth == 0 or game_over(board):
@@ -1577,19 +1505,9 @@ if move_value > best_value:
 best_value = move_value
 best_move = move
 print(f"The best move is {best_move} with a value of {best_value}")
-
-
-
-
-
-
-
-
-
 ````
 
-## Slip 1
-#### Q.1
+#### Q.2
 ````
 responses = {
 "hi": "Hello there! How can I help you today?",
@@ -1616,17 +1534,26 @@ print("Simple Chatbot: Goodbye!")
 break
 response = chatbot(user_input)
 print("Simple Chatbot:", response)
+````
 
+## Slip 23
+#### Q.1
+````
+def tower_of_hanoi(n, source_peg, target_peg, auxiliary_peg):
+if n == 1:
+print(f"Move disk 1 from {source_peg} to {target_peg}")
+return
+tower_of_hanoi(n - 1, source_peg, auxiliary_peg, target_peg)
+print(f"Move disk {n} from {source_peg} to {target_peg}")
+tower_of_hanoi(n - 1, auxiliary_peg, target_peg, source_peg)
+if __name__ == "__main__":
+number_of_disks = int(input("Enter the number of disks: "))
 
+tower_of_hanoi(number_of_disks, 'A', 'C', 'B')
+````
 
-
-
-
-
-
-
-
-
+#### Q2
+````
 from itertools import permutations
 def is_solution(mapping):
 send = mapping['S'] * 1000 + mapping['E'] * 100 + mapping['N'] * 10 + mapping['D']
@@ -1659,40 +1586,11 @@ print("------")
 print(f" MONEY")
 else:
 print("No solution found.")
-
-
-
-
-
-
-
-
 ````
 
-## Slip 1
+## Slip 24
 #### Q.1
 ````
-def tower_of_hanoi(n, source_peg, target_peg, auxiliary_peg):
-if n == 1:
-print(f"Move disk 1 from {source_peg} to {target_peg}")
-return
-tower_of_hanoi(n - 1, source_peg, auxiliary_peg, target_peg)
-print(f"Move disk {n} from {source_peg} to {target_peg}")
-tower_of_hanoi(n - 1, auxiliary_peg, target_peg, source_peg)
-if __name__ == "__main__":
-number_of_disks = int(input("Enter the number of disks: "))
-
-tower_of_hanoi(number_of_disks, 'A', 'C', 'B')
-
-
-
-
-
-
-
-
-
-
 def sort_sentence(sentence):
 words = sentence.split()
 sorted_words = sorted(words)
@@ -1702,13 +1600,9 @@ if __name__ == "__main__":
 input_sentence = input("Enter a sentence: ")
 result = sort_sentence(input_sentence)
 print("Sorted Sentence:", result)
-
-
-
 ````
 
-## Slip 1
-#### Q.1
+#### Q.2
 ````
 from itertools import permutations
 def is_solution(mapping):
@@ -1745,16 +1639,41 @@ print("------")
 print(f" DANGER")
 else:
 print("No solution found.")
+````
 
+## Slip 25
+#### Q.1
+````
+from flask import Flask, request, jsonify
+app = Flask(__name__)
+# Replace these with your own information
+your_name = "Your Name"
 
+your_program = "Your Program"
+your_year = "Your Year"
+your_interests = ["Interest 1", "Interest 2", "Interest 3"]
+@app.route('/college_bot', methods=['POST'])
+def college_bot():
+data = request.get_json()
+if 'action' in data:
+action = data['action']
+if action == 'get_info':
+response = {
+'name': your_name,
+'program': your_program,
+'year': your_year,
+'interests': your_interests
+}
+return jsonify(response)
+else:
+return jsonify({'error': 'Invalid action'})
+return jsonify({'error': 'Action not provided'})
+if __name__ == '__main__':
+app.run(debug=True)
+````
 
-
-
-
-
-
-
-
+#### Q2
+````
 def print_chessboard(chessboard):
 for row in chessboard:
 print(" ".join(row))
@@ -1798,46 +1717,5 @@ else:
 print("No solution found.")
 if __name__ == '__main__':
 main()
-
-
-
-
-
-
-
-
-
 ````
-
-## Slip 1
-#### Q.1
-````
-from flask import Flask, request, jsonify
-app = Flask(__name__)
-# Replace these with your own information
-your_name = "Your Name"
-
-your_program = "Your Program"
-your_year = "Your Year"
-your_interests = ["Interest 1", "Interest 2", "Interest 3"]
-@app.route('/college_bot', methods=['POST'])
-def college_bot():
-data = request.get_json()
-if 'action' in data:
-action = data['action']
-if action == 'get_info':
-response = {
-'name': your_name,
-'program': your_program,
-'year': your_year,
-'interests': your_interests
-}
-return jsonify(response)
-else:
-return jsonify({'error': 'Invalid action'})
-return jsonify({'error': 'Action not provided'})
-if __name__ == '__main__':
-app.run(debug=True)
-
-
 
